@@ -16,7 +16,8 @@ def split(pdfName, pages):
         firstPage = int(pages[i][0])
         lastPage = int(pages[i][1])
         writer = PyPDF2.PdfFileWriter()
-        subName = pdfName[:-4]+"("+str(firstPage)+"-"+str(lastPage)+").pdf"
+        #subName = pdfName[:-4]+"("+str(firstPage)+"-"+str(lastPage)+").pdf"
+        subName = pdfName[:-4]+"#"+str(i)+".pdf"
         with open(subName, 'wb') as f:
             for j in range(firstPage-1,lastPage):
                 writer.addPage(reader.getPage(j))
@@ -28,6 +29,8 @@ args = sys.argv
 pdfName = args[1]
 pages = []
 for i in range(2,len(args)):
-    pages.append(args[i].split('-'))
+    if len(args[i])==1:
+        pages.append([args[i],args[i]])
+    else: pages.append(args[i].split('-'))
 
 split(pdfName,pages)
